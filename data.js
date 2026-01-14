@@ -69,6 +69,35 @@ function clearCache(pattern) {
     }
 }
 
+function isError(response, data) {
+    if (!response.ok) return true;
+    if (data.error) return true;
+    if (data.success === false) return true;
+    if (data.result === false) return true;
+    if (data.status === 'error' || data.status === 'fail') return true;
+    if (data.code && data.code !== 'SUCCESS' && data.code !== 'success' && data.code !== 200 && data.code !== 0) return true;
+    return false;
+}
+
+function extractData(data) {
+    if (Array.isArray(data)) return data;
+    const fields = ['data', 'result', 'results', 'items', 'records', 'content', 'rows', 'list', 'payload', 'body'];
+    for (const field of fields) {
+        if (data[field] !== undefined) return data[field];
+    }
+    if (data.response?.data) return data.response.data;
+    return data;
+}
+
+function getErrorMessage(data) {
+    if (typeof data.error === 'string') return data.error;
+    if (data.error?.message) return data.error.message;
+    if (data.message) return data.message;
+    if (data.msg) return data.msg;
+    if (data.errors?.length) return data.errors.join(', ');
+    return 'Request failed';
+}
+
 function startLoading(id) {
     loadingState.active.add(id);
     clearTimeout(loadingState.debounceTimer);
@@ -137,11 +166,11 @@ async function request(fn, name, useCache = true, params = null, useSWR = false)
 
             if (interceptors.after) interceptors.after(data);
 
-            if ((data.code && data.code !== 'SUCCESS') || data.result === false || !response.ok) {
-                throw new Error(data.message || 'Request failed');
+            if (isError(response, data)) {
+                throw new Error(getErrorMessage(data));
             }
 
-            const result = data.data || data.result;
+            const result = extractData(data);
             dataStore.set(name, result);
 
             if (useCache && params) setCache(name, params, result);
@@ -171,9 +200,9 @@ async function fetchInBackground(fn, name, params) {
         clearTimeout(timeoutId);
         const data = await response.json();
 
-        if ((data.code && data.code !== 'SUCCESS') || data.result === false || !response.ok) return;
+        if (isError(response, data)) return;
 
-        const result = data.data || data.result;
+        const result = extractData(data);
         dataStore.set(name, result);
         setCache(name, params, result);
     } catch (e) {}
