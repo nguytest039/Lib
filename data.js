@@ -424,43 +424,30 @@ function hasError() {
     return messageState.error !== null;
 }
 
-const fixNull = (value,fallback = '') => {
-    value == null || value === '' || value === 'null' || value === 'undefined' ? fallback : value;
-} 
+const fixNull = (value, fallback = '') => value == null || value === '' || value === 'null' || value === 'undefined' ? fallback : value;
 
 export {
-    api,
-    dataStore,
-    get,
-    post,
-    patch,
-    put,
-    del,
-    getAll,
-    getCursor,
-    abort,
-    abortAll,
-    onLoading,
-    interceptors,
-    messageState,
-    hasError,
-    clearCache,
-    withRetry,
-    poll,
-    stopPoll,
-    stopAllPolls,
-    api as requestHandlers,
-    get as registerGetEndpoint,
-    post as registerPostEndpoint,
-    patch as registerPatchEndpoint,
-    put as registerPutEndpoint,
-    del as registerDeleteEndpoint,
-    setLoadingHooks,
-    paramCache,
-    getAll as paginatedGet,
-    getCursor as cursorPaginatedGet,
-    abort as cancelRequest,
-    abortAll as cancelAllRequests,
-    clearCache as invalidateCache,
-    fixNull
+  api,
+  dataStore,
+  get,
+  post,
+  patch,
+  put,
+  del,
+  getAll,
+  getCursor,
+  abort,
+  abortAll,
+  onLoading,
+  interceptors,
+  messageState,
+  hasError,
+  clearCache,
+  withRetry,
+  poll,
+  stopPoll,
+  stopAllPolls,
+  setLoadingHooks,
+  paramCache,
+  fixNull
 };
