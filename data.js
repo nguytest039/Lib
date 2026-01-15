@@ -1,6 +1,9 @@
 /*!
- * lib.js
- * © 2026 - DKN
+ * data.js
+ * data processing and synchronization library
+ *
+ * Author: DKN(DUC) 
+ * © 2026
  */
 
 const dataStore = new Map();
@@ -421,6 +424,10 @@ function hasError() {
     return messageState.error !== null;
 }
 
+const fixNull = (value,fallback = '') => {
+    value == null || value === '' || value === 'null' || value === 'undefined' ? fallback : value;
+} 
+
 export {
     api,
     dataStore,
@@ -454,5 +461,6 @@ export {
     getCursor as cursorPaginatedGet,
     abort as cancelRequest,
     abortAll as cancelAllRequests,
-    clearCache as invalidateCache
+    clearCache as invalidateCache,
+    fixNull
 };
