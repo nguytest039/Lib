@@ -1,7 +1,3 @@
-```md
-Đúng — mình đã tách đoạn doc ra nhiều “khối” trong chat cho dễ đọc. Bạn muốn **1 file .md duy nhất để copy**, thì đây là bản **liền mạch trong 1 block** (copy/paste là thành `data.md` luôn).
-```
-
 ````md
 # data.js
 
@@ -452,6 +448,3 @@ fixNull('ok', '-');        // 'ok'
 * `poll`, `stopPoll`, `stopAllPolls`
 * `paramCache`
 * `fixNull`
-
-```
-```
