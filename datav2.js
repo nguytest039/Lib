@@ -1,3 +1,11 @@
+/*!
+ * data.js
+ * data processing and synchronization library
+ *
+ * Author: DKN(DUC)
+ * © 2026
+ */
+
 const dataStore = new Map();
 const paramCache = new Map();
 const cacheStore = new Map();
