@@ -1,26 +1,8 @@
+// pagination.js
 /*!
  * Pagination library
- * Author: DKN(DUC)
+ * Author: DKN(DUC) 
  * © 2026
- */
-
-/**
- * Backend Pagination Library
- *
- * import { Pagination } from './pagination.js';
- *
- * const pagination = new Pagination({
- *     container: '#pagination',
- *     totalItems: 100,
- *     itemsPerPage: 10,
- *     currentPage: 1,
- *     maxVisiblePages: 5,
- *     onPageChange: async (page, itemsPerPage) => {
- *         const response = await fetch(`/api/items?page=${page}&limit=${itemsPerPage}`);
- *         const data = await response.json();
- *         // Update UI
- *     }
- * });
  */
 
 export class Pagination {
