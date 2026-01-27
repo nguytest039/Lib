@@ -1,5 +1,5 @@
 /*!
- * data.js
+ * advanced_data.js
  * data processing and synchronization library
  *
  * Author: DKN(DUC)
