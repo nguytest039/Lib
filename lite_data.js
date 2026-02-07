@@ -123,6 +123,7 @@ async function request(method, name, url, payload = null, options = {}) {
 
   const isGet = method === "GET";
   const useCache = options.cache === true;
+  const extract = options.extract;
 
   const { fullUrl } = processUrl(url, isGet ? payload : options.params);
   const cacheKey = isGet && useCache ? makeCacheKey("GET", name, fullUrl) : null;
@@ -183,7 +184,13 @@ async function request(method, name, url, payload = null, options = {}) {
       throw new Error(msg || "Request failed");
     }
 
-    const distinctData = config.extractData(data);
+    let distinctData;
+    if (extract && typeof extract === "function") {
+      distinctData = extract(data);
+    } else {
+      distinctData = config.extractData(data);
+    }
+
     dataStore.set(name, distinctData);
 
     if (data && data.message) messageState.success = data.message;
@@ -230,4 +237,16 @@ export function patch(name, url, options) {
 }
 export function del(name, url, options) {
   return register("DELETE", name, url, options);
+}
+
+export function extractPaged(itemsKey = "data", totalKey = "total") {
+  return (json) => {
+    if (Array.isArray(json)) {
+      return { items: json, total: json.length };
+    }
+    return {
+      items: Array.isArray(json?.[itemsKey]) ? json[itemsKey] : [],
+      total: Number(json?.[totalKey]) || 0,
+    };
+  };
 }
